@@ -1,5 +1,5 @@
 CC=g++
-CXXFLAGS=""
+CXXFLAGS=
 INCLUDES="libil2cpp"
 OUT=il2cpp_dumper
 

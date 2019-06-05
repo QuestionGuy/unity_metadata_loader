@@ -1,2 +1,5 @@
 # ignore outputfile 
 il2cpp_dumper
+
+# ignore object files
+*.o
