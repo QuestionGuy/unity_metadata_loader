@@ -1,6 +1,8 @@
-# unity_metadata_loader (linux fork)
+# unity_metadata_loader
+
 
 This project will load strings and method/class names in global-metadata.dat to IDA.
+Modified to compile on linux. 
 
 ## Introduction
 
