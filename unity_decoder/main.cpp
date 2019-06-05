@@ -11,7 +11,6 @@
 #include <il2cpp-metadata.h>
 #include <vm/String.h>
 #include <vm/MetadataCache.h>
-#include <windows.h>
 #include <fstream>
 #include <cstdio>
 #include <cstdlib>
