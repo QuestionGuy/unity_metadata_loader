@@ -234,9 +234,12 @@ void InitializeMethodMetadata(uint32_t index)
 	uint32_t start = metadataUsageLists->start;
 	uint32_t count = metadataUsageLists->count;
 
+	printf("count: %d, start: %d\n", count, start);
+
 	for (uint32_t i = 0; i < count; i++)
 	{
 		uint32_t offset = start + i;
+		// printf("s_GlobalMetadataHeader->metadataUsagePairsCount: %d, offset: %d\n ", s_GlobalMetadataHeader->metadataUsagePairsCount, offset);
 		assert(s_GlobalMetadataHeader->metadataUsagePairsCount >= 0 && offset <= static_cast<uint32_t>(s_GlobalMetadataHeader->metadataUsagePairsCount));
 		const Il2CppMetadataUsagePair* metadataUsagePairs = MetadataOffset<const Il2CppMetadataUsagePair*>(s_GlobalMetadata, s_GlobalMetadataHeader->metadataUsagePairsOffset, offset);
 		uint32_t destinationIndex = metadataUsagePairs->destinationIndex;
