@@ -240,7 +240,12 @@ void InitializeMethodMetadata(uint32_t index)
 	{
 		uint32_t offset = start + i;
 		// printf("s_GlobalMetadataHeader->metadataUsagePairsCount: %d, offset: %d\n ", s_GlobalMetadataHeader->metadataUsagePairsCount, offset);
-		assert(s_GlobalMetadataHeader->metadataUsagePairsCount >= 0 && offset <= static_cast<uint32_t>(s_GlobalMetadataHeader->metadataUsagePairsCount));
+        // instead of assertion
+		uint32_t cond = (s_GlobalMetadataHeader->metadataUsagePairsCount >= 0 && offset <= static_cast<uint32_t>(s_GlobalMetadataHeader->metadataUsagePairsCount));
+        if(cond) {
+            printf("failed to init metadata @ index: %d\n", index);
+            break;
+        }
 		const Il2CppMetadataUsagePair* metadataUsagePairs = MetadataOffset<const Il2CppMetadataUsagePair*>(s_GlobalMetadata, s_GlobalMetadataHeader->metadataUsagePairsOffset, offset);
 		uint32_t destinationIndex = metadataUsagePairs->destinationIndex;
 		uint32_t encodedSourceIndex = metadataUsagePairs->encodedSourceIndex;
@@ -299,6 +304,8 @@ int main()
 	assert(s_GlobalMetadataHeader->sanity == 0xFAB11BAF);
 	assert(s_GlobalMetadataHeader->version == 24);
 
+    std::cout << "method count:" << s_GlobalMetadataHeader->methodsCount <<
+     " method_size: " << sizeof(Il2CppMethodDefinition) << std::endl;
 
 
 	stringLiteralFile.open(StringLiteralFileName);
