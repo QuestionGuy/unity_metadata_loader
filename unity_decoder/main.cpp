@@ -230,13 +230,17 @@ void InitializeMethodMetadata(uint32_t index)
 {
 	assert(s_GlobalMetadataHeader->metadataUsageListsCount >= 0 && index <= static_cast<uint32_t>(s_GlobalMetadataHeader->metadataUsageListsCount));
 	
+    std::cout << "metadataUsageListsOffset = " << std::hex << s_GlobalMetadataHeader->metadataUsageListsOffset << std::dec << std::endl;
 
 	const Il2CppMetadataUsageList* metadataUsageLists = MetadataOffset<const Il2CppMetadataUsageList*>(s_GlobalMetadata, s_GlobalMetadataHeader->metadataUsageListsOffset, index);
 
 	uint32_t start = metadataUsageLists->start;
 	uint32_t count = metadataUsageLists->count;
 
-	printf("count: %d, start: %d\n", count, start);
+    // uint32_t start = 0x2;
+    // uint32_t count = 0x9e;
+
+	std::cout << "InitializeMethodMetadata(start=" <<  start << ", count=" << count << ')' <<  std::endl;
 
 	for (uint32_t i = 0; i < count; i++)
 	{
@@ -269,7 +273,7 @@ void InitializeMethodMetadata(uint32_t index)
 			break;
 		case kIl2CppMetadataUsageStringLiteral:
 			g_metadataUsages[destinationIndex] = GetStringLiteralFromIndex(decodedIndex);
-			break;
+			break; 
 		default:
 			//std::cout << "not implemented" << std::endl;
 			break;
@@ -307,6 +311,8 @@ int main()
 	int usagePairCount = s_GlobalMetadataHeader->metadataUsageListsCount / sizeof(Il2CppMetadataUsagePair);
 
     std::cout << "usagePairCount: " << s_GlobalMetadataHeader->metadataUsageListsCount / sizeof(Il2CppMetadataUsagePair) << std::endl;
+    std::cout << "stringLiteralCount: " << s_GlobalMetadataHeader->stringLiteralCount << std::endl;
+    std::cout << "sizeof(Il2CppStringLiteral)=" << sizeof(Il2CppStringLiteral) << std::endl;
 
 	for (int i = 0; i < usagePairCount; i++) {
 		InitializeMethodMetadata(i);
