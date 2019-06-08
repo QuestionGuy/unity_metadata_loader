@@ -10,4 +10,4 @@ main.o: main.cpp
 	$(CC) $(CXXFLAGS) -I$(INCLUDES) -c main.cpp -o main.o
 
 clean: 
-	rm -rf *.O
+	rm -rf *.o $(OUT)
