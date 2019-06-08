@@ -307,6 +307,8 @@ int main()
     std::cout << "method count:" << s_GlobalMetadataHeader->methodsCount <<
      " method_size: " << sizeof(Il2CppMethodDefinition) << std::endl;
 
+     std::cout << "type_def_size: " << sizeof(Il2CppTypeDefinition) << std::endl;
+
 
 	stringLiteralFile.open(StringLiteralFileName);
 	int usagePairCount = s_GlobalMetadataHeader->metadataUsageListsCount / sizeof(Il2CppMetadataUsagePair);
