@@ -21,6 +21,8 @@ const char *MetadataFileName = "./global-metadata.dat";
 const char *StringLiteralFileName = "./string_literal.txt";
 const char *MethodNameFileName = "./method_name.txt";
 
+
+
 static Il2CppGlobalMetadataHeader* s_GlobalMetadataHeader;
 static void* s_GlobalMetadata;
 
@@ -240,12 +242,7 @@ void InitializeMethodMetadata(uint32_t index)
 	{
 		uint32_t offset = start + i;
 		// printf("s_GlobalMetadataHeader->metadataUsagePairsCount: %d, offset: %d\n ", s_GlobalMetadataHeader->metadataUsagePairsCount, offset);
-        // instead of assertion
-		uint32_t cond = (s_GlobalMetadataHeader->metadataUsagePairsCount >= 0 && offset <= static_cast<uint32_t>(s_GlobalMetadataHeader->metadataUsagePairsCount));
-        if(cond) {
-            printf("failed to init metadata @ index: %d\n", index);
-            break;
-        }
+		assert(s_GlobalMetadataHeader->metadataUsagePairsCount >= 0 && offset <= static_cast<uint32_t>(s_GlobalMetadataHeader->metadataUsagePairsCount));
 		const Il2CppMetadataUsagePair* metadataUsagePairs = MetadataOffset<const Il2CppMetadataUsagePair*>(s_GlobalMetadata, s_GlobalMetadataHeader->metadataUsagePairsOffset, offset);
 		uint32_t destinationIndex = metadataUsagePairs->destinationIndex;
 		uint32_t encodedSourceIndex = metadataUsagePairs->encodedSourceIndex;
@@ -304,14 +301,13 @@ int main()
 	assert(s_GlobalMetadataHeader->sanity == 0xFAB11BAF);
 	assert(s_GlobalMetadataHeader->version == 24);
 
-    std::cout << "method count:" << s_GlobalMetadataHeader->methodsCount <<
-     " method_size: " << sizeof(Il2CppMethodDefinition) << std::endl;
-
-     std::cout << "type_def_size: " << sizeof(Il2CppTypeDefinition) << std::endl;
-
+    std::cout << s_GlobalMetadataHeader->methodsCount << std::endl;
 
 	stringLiteralFile.open(StringLiteralFileName);
 	int usagePairCount = s_GlobalMetadataHeader->metadataUsageListsCount / sizeof(Il2CppMetadataUsagePair);
+
+    std::cout << "usagePairCount: " << s_GlobalMetadataHeader->metadataUsageListsCount / sizeof(Il2CppMetadataUsagePair) << std::endl;
+
 	for (int i = 0; i < usagePairCount; i++) {
 		InitializeMethodMetadata(i);
 	}
@@ -319,13 +315,13 @@ int main()
 
 	int strCount = s_GlobalMetadataHeader->stringLiteralCount / sizeof(Il2CppStringLiteral);
 	
-	/*
+	
 	for (int i = MAX_META_COUNT - 1 ; i >= 0 ; i--) {
 		if (g_metadataUsages[i] != NULL) {
 			stringLiteralFile << g_metadataUsages[i] << std::endl;
 		}
 	}
-	*/
+	
 	int skip = 0;
 	int i = 0;
 	for (i = 0; i < MAX_META_COUNT; i++) {
@@ -349,7 +345,7 @@ int main()
 	}
 	
 	
-	stringLiteralFile.close();
+	// stringLiteralFile.close();
 
 	methodNameFile.open(MethodNameFileName);
 

@@ -422,6 +422,8 @@ struct Il2CppGlobalMetadataHeader
 };
 #pragma pack(pop, p1)
 
+#define RUNTIME_MONO TRUE
+
 #if RUNTIME_MONO
 
 #pragma pack(push, p1,4)
@@ -462,3 +464,5 @@ struct Il2CppGlobalMonoMetadataHeader
 };
 #pragma pack(pop, p1)
 #endif
+
+#undef RUNTIME_MONO

@@ -3,3 +3,6 @@ il2cpp_dumper
 
 # ignore object files
 *.o
+
+# don't hate me
+commit.sh
